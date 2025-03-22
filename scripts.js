@@ -16,3 +16,7 @@ function logBoard() {
         console.log(rowItems);
     }
 }
+
+function clearBoard() {
+    board.fill(null);
+}
