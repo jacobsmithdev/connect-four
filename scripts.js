@@ -1,5 +1,6 @@
 const ROW_WIDTH = 5;
 const COL_HEIGHT = 4;
+const NUM_BOARD_CELLS = ROW_WIDTH * COL_HEIGHT;
 
 const board = Array(ROW_WIDTH * COL_HEIGHT).fill(null);
 
@@ -25,7 +26,6 @@ function dropToken(token, col) {
     if (col > ROW_WIDTH) return false;
 
     const availableCells = [];
-    const NUM_BOARD_CELLS = ROW_WIDTH * COL_HEIGHT;
 
     let cellIndex = col; 
     while (cellIndex < NUM_BOARD_CELLS) {
