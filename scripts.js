@@ -20,3 +20,24 @@ function logBoard() {
 function clearBoard() {
     board.fill(null);
 }
+
+function dropToken(token, col) {
+    if (col > ROW_WIDTH) return false;
+
+    const availableCells = [];
+    const NUM_BOARD_CELLS = ROW_WIDTH * COL_HEIGHT;
+
+    let cellIndex = col; 
+    while (cellIndex < NUM_BOARD_CELLS) {
+        if (board[cellIndex] === null) {
+            availableCells.push(cellIndex);
+        }
+        cellIndex += ROW_WIDTH;
+    }
+
+    if (!availableCells) return false;
+
+    const lowestColCell = availableCells[availableCells.length -1]
+    board[lowestColCell] = token;
+    return true;
+}
