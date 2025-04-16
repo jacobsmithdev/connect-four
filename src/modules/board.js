@@ -1,25 +1,16 @@
 const ROW_WIDTH = 5;
 const COL_HEIGHT = 4;
-const NUM_BOARD_CELLS = ROW_WIDTH * COL_HEIGHT;
 
-const board = Array(ROW_WIDTH * COL_HEIGHT).fill(null);
+// Format board as [row][col]
+const board = Array(COL_HEIGHT).fill(null);
+board.forEach((_, index) => board[index] = Array(ROW_WIDTH).fill(null));
 
 function logBoard() {
-    for (let rowNum = 0; rowNum < COL_HEIGHT; rowNum++) {
-        const rowItems = [];
-        const startIndex = rowNum * ROW_WIDTH;
-        const endIndex = startIndex + ROW_WIDTH;
-        
-        for (let rowItem = startIndex; rowItem < endIndex; rowItem++) {
-            rowItems.push(board[rowItem]);
-        }
-        
-        console.log(rowItems);
-    }
+    console.table(board);
 }
 
 function clearBoard() {
-    board.fill(null);
+    board.forEach(row => row.fill(null));
 }
 
 function dropToken(token, col) {
@@ -27,18 +18,16 @@ function dropToken(token, col) {
 
     const availableCells = [];
 
-    let cellIndex = col; 
-    while (cellIndex < NUM_BOARD_CELLS) {
-        if (board[cellIndex] === null) {
-            availableCells.push(cellIndex);
+    for (let i = 0; i < COL_HEIGHT; i++) {
+        if (!board[i][col]) {
+            availableCells.push(i);
         }
-        cellIndex += ROW_WIDTH;
     }
+    
+    if (!availableCells.length) return false;
 
-    if (!availableCells) return false;
-
-    const lowestColCell = availableCells[availableCells.length -1]
-    board[lowestColCell] = token;
+    const lowestAvailableCell = availableCells[availableCells.length - 1];
+    board[lowestAvailableCell][col] = token;
     return true;
 }
 
