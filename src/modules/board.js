@@ -19,7 +19,7 @@ function dropToken(token, col) {
     const availableCells = [];
 
     for (let i = 0; i < COL_HEIGHT; i++) {
-        if (!board[i][col]) {
+        if (board[i][col] === null) {
             availableCells.push(i);
         }
     }
