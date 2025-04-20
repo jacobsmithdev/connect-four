@@ -39,17 +39,22 @@ function checkForWinner(token) {
     return false;
 }
 
+function hasNItemsInRow(arr, item, itemsInRowNeeded) {
+    let itemsInRow = 0;
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === item) {
+            itemsInRow++;
+            if (itemsInRow >= itemsInRowNeeded) return true;
+        } else {
+            itemsInRow = 0;
+        }
+    }
+    return false;
+}
+
 function rowHasWinner(token) {
     const rowHasWinner = board.some(row => {
-        for (let n = 0; n < ROW_WIDTH - WIN_LENGTH + 1; n++) {
-            const subsetStart = n;
-            const subsetEnd = n + ROW_WIDTH - 1;
-            const subset = row.slice(subsetStart, subsetEnd);
-            
-            if (subset.every(item => item === token)) {
-                return true;
-            }
-        }
+        if (hasNItemsInRow(row, token, WIN_LENGTH)) return true;
     })
 
     return rowHasWinner;
@@ -64,15 +69,7 @@ function colHasWinner(token) {
     }
 
     const colHasWinner = cols.some(col => {
-        for (let n = 0; n < COL_HEIGHT - WIN_LENGTH + 1; n++) {
-            const subsetStart = n;
-            const subsetEnd = n + COL_HEIGHT;
-            const subset = col.slice(subsetStart, subsetEnd);
-            
-            if (subset.every(item => item === token)) {
-                return true;
-            }
-        }
+        if (hasNItemsInRow(col, token, WIN_LENGTH)) return true;
     });
 
     return colHasWinner;
@@ -108,14 +105,7 @@ function diagonalHasWinner(token) {
     const filteredDiagonals = diagonals.filter(diagonal => diagonal.length >= WIN_LENGTH);
 
     const diagonalHasWinner = filteredDiagonals.some(diagonal => {
-        for (let n = 0; n < diagonal.length; n++) {
-            if (n + WIN_LENGTH > diagonal.length) break;
-            const subsetStart = n;
-            const subsetEnd = n + WIN_LENGTH;
-            const subset = diagonal.splice(subsetStart, subsetEnd); 
-
-            if (subset.every(item => item === token)) return true;
-        } 
+        if (hasNItemsInRow(diagonal, token, WIN_LENGTH)) return true;
         return false;
     })
 
