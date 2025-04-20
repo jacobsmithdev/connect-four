@@ -32,6 +32,13 @@ function dropToken(token, col) {
     return true;
 }
 
+function checkForWinner(token) {
+    if (rowHasWinner(token) || colHasWinner(token) || diagonalHasWinner(token)) {
+        return true;
+    }
+    return false;
+}
+
 function rowHasWinner(token) {
     const rowHasWinner = board.some(row => {
         for (let n = 0; n < ROW_WIDTH - WIN_LENGTH + 1; n++) {
