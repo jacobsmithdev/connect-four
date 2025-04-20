@@ -71,4 +71,48 @@ function colHasWinner(token) {
     return colHasWinner;
 }
 
+function diagonalHasWinner(token) {
+    const diagonals = [];
+    
+    for (let startCol = 0; startCol < ROW_WIDTH; startCol++) {
+        let col = startCol;
+        let row = 0;
+        const diagonal = [];
+        while (col < ROW_WIDTH && row < COL_HEIGHT) {
+            diagonal.push(board[row][col]);
+            col++;
+            row++;
+        }
+        diagonals.push(diagonal);
+    }
+    
+    for (let startCol = 0; startCol < ROW_WIDTH; startCol++) {
+        let col = startCol;
+        let row = 0;
+        const diagonal = [];
+        while (col < ROW_WIDTH && row < COL_HEIGHT) {
+            diagonal.push(board[COL_HEIGHT - row - 1][col]);
+            col++;
+            row++;
+        }
+        diagonals.push(diagonal);
+    }
+
+    const filteredDiagonals = diagonals.filter(diagonal => diagonal.length >= WIN_LENGTH);
+
+    const diagonalHasWinner = filteredDiagonals.some(diagonal => {
+        for (let n = 0; n < diagonal.length; n++) {
+            if (n + WIN_LENGTH > diagonal.length) break;
+            const subsetStart = n;
+            const subsetEnd = n + WIN_LENGTH;
+            const subset = diagonal.splice(subsetStart, subsetEnd); 
+
+            if (subset.every(item => item === token)) return true;
+        } 
+        return false;
+    })
+
+    return diagonalHasWinner;
+}
+
 export { logBoard, clearBoard, dropToken };
