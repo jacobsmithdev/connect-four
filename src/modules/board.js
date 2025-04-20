@@ -48,4 +48,27 @@ function rowHasWinner(token) {
     return rowHasWinner;
 }
 
+function colHasWinner(token) {
+    const cols = [];
+
+    for (let colNum = 0; colNum < ROW_WIDTH; colNum++) {
+        const col = board.map(row => row[colNum]);
+        cols.push(col);
+    }
+
+    const colHasWinner = cols.some(col => {
+        for (let n = 0; n < COL_HEIGHT - WIN_LENGTH + 1; n++) {
+            const subsetStart = n;
+            const subsetEnd = n + COL_HEIGHT;
+            const subset = col.slice(subsetStart, subsetEnd);
+            
+            if (subset.every(item => item === token)) {
+                return true;
+            }
+        }
+    });
+
+    return colHasWinner;
+}
+
 export { logBoard, clearBoard, dropToken };
